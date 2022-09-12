@@ -6,7 +6,7 @@ const express = require('express');
 
 // Start up an instance of app
 const app = express();
-const bodyParser = requre('bodyParser');
+const bodyParser = require('body-parser');
 
 /* Middleware*/
 //Here we are configuring express to use body-parser as middle-ware.
@@ -21,8 +21,28 @@ app.use(express.static('website'));
 
 
 // Setup Server
-const port = 3000;
+const port = 4000;
 const server = app.listen(port, listening);
 function listening() {
     console.log(`running on localhost: ${port}`);
+};
+
+// GET ROUTE
+app.get('/all', sendData);
+
+function sendData (request, response) {
+  response.send(projectData);
+};
+
+
+// POST ROUTE
+app.post('/add', addData);
+
+function addData (request, response){
+    let newEntry = {
+        temp: request.body.temp,
+        date: request.body.date,
+        feelings: request.body.feelings
+    }
+    projectData = newEntry;
 };
