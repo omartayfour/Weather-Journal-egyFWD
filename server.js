@@ -41,6 +41,8 @@ app.post('/add', addData);
 function addData (request, response){
     let newEntry = {
         temp: request.body.temp,
+        country: request.body.country,
+        state: request.body.state,
         date: request.body.date,
         feelings: request.body.feelings
     }

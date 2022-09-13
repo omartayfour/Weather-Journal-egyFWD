@@ -7,7 +7,7 @@ const generate = document.getElementById('generate');
 
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
+let newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
 
 // event listener
 generate.addEventListener('click', () => {
@@ -21,6 +21,8 @@ generate.addEventListener('click', () => {
             postData({
                 date: newDate,
                 temp: data.main.temp,
+                country: data.sys.country,
+                state: data.name,
                 feelings: feelings.value
             })
         }).then(()=>updateUI())
@@ -32,6 +34,7 @@ async function getWeather(baseURL, zipCode, apiKey) {
     const getRequest = await fetch(baseURL + zipCode + apiKey);
     try {
         const data = await getRequest.json();
+        console.log(data);
         return data
     }
     catch (error) {
@@ -63,6 +66,7 @@ async function updateUI() {
     const getRequest = await fetch('http://localhost:4000/all');
     try {
         const data = await getRequest.json()
+        document.getElementById('text').innerHTML = "You have entered the zip code for the" + data.country + " in the city of " + data.state;
         document.getElementById('date').innerHTML = data.date;
         document.getElementById('temp').innerHTML = Math.round(data.temp) + ' degrees';
         document.getElementById('content').innerHTML = data.feelings;
